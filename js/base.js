@@ -1,5 +1,5 @@
 //base.js
-var baseUrl='//52.83.166.49:8868';
+var baseUrl='http://52.83.166.49:8868';
 //ajaxPost请求
 function ajaxPost(url,jsonData,returnFun) {
     $.ajax({

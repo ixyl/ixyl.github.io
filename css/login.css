@@ -1,0 +1,169 @@
+html, body {
+	background-size: 100%;
+    background-image: url(../img/Starry.jpg);
+    perspective: 800px;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    font-size: 16px;
+    background-repeat: no-repeat;
+    background-position: left top;
+    background-color: #242645;
+}
+body .login {
+    box-shadow: -15px 15px 15px rgba(6, 17, 47, 0.7);
+    opacity: 1;
+    width: 240px;
+    height: 300px;
+    position: absolute;
+    transform-origin: 161px 100%;
+	transform: rotateX(0deg);
+	transition-property: transform,opacity,box-shadow,top,left;
+	transition-duration: .5s;
+	left: 0;
+    right: 0;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    padding: 100px 40px 40px 40px;
+    background: linear-gradient(230deg, rgba(53, 57, 74, 0) 0%, rgb(0, 0, 0) 100%);
+}
+body .login_title {
+    color: #D3D7F7;
+    height: 60px;
+    text-align: center;
+    font-size: 16px;
+    width:240px;
+}
+body .login_fields {
+    height: 208px;
+    text-align: center;
+    left: 0;
+    width:240px;
+}
+body .login_fields input{
+    background: rgba(57, 61, 82, 0);
+    border:none;
+    padding-top: 3px;
+    padding-left: 40px;
+    font-size: 16px;
+    color:#B8B8B8;
+}
+.login_selected{
+	color: #777;
+}
+.login_title a{
+	color:#D8D8D8;
+}
+.login_link a {
+	color:#3c8dbc;
+}
+
+a:hover {
+    color: #777;
+}
+body .move {
+  left: -320px !important;
+}
+body .tilt {
+  box-shadow: 0px 20px 30px 3px rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+  top: -100px !important;
+  -webkit-transform: rotateX(70deg) scale(0.8) !important;
+          transform: rotateX(70deg) scale(0.8) !important;
+  opacity: .6 !important;
+  -webkit-filter: blur(1px);
+          filter: blur(1px);
+}
+body .authent {
+  box-shadow: 0px 20px 30px 3px rgba(0, 0, 0, 0.55);
+  display: none;
+  background: #35394a;
+  /* Old browsers */
+  /* FF3.6+ */
+
+  /* Chrome10+,Safari5.1+ */
+  /* Opera 11.10+ */
+  /* IE10+ */
+  background: linear-gradient(230deg, rgba(53, 57, 74, 0) 0%, rgb(0, 0, 0) 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='rgba(53, 57, 74, 0)', endColorstr='rgb(0, 0, 0)',GradientType=1 );
+  /* IE6-9 fallback on horizontal gradient */
+  position: absolute;
+  left: 0;
+  right: 90px;
+  margin: auto;
+  width: 100px;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center;
+  padding: 20px 70px;
+  top: 200px;
+  bottom: 0;
+  height: 70px;
+  opacity: 0;
+}
+body .authent p {
+  text-align: center;
+  color: white;
+}
+/* :-moz-placeholder { Mozilla Firefox 4 to 18 */
+/*     color: #CECFD2; opacity:1;  */
+/* } */
+
+/* ::-moz-placeholder { Mozilla Firefox 19+ */
+/*     color: #CECFD2;opacity:1; */
+/* } */
+
+/* input:-ms-input-placeholder{ */
+/*     color: #CECFD2;opacity:1; */
+/* } */
+
+/* input::-webkit-input-placeholder{ */
+/*     color: #CECFD2;opacity:1; */
+/* } */
+h1 {
+	font-size: 2.8em;
+	font-weight: 700;
+	letter-spacing: -1px;
+	margin: 0.6rem 0; 
+}
+h1 > span {font-weight: 300; }
+h2 {
+	font-size: 1.15em;
+	font-weight: 300;
+	margin: 0.3rem 0; 
+}
+main {
+	width: 95%;
+	max-width: 1000px;
+	margin: 4em auto;
+	opacity: 0; 
+}
+main.loaded {transition: opacity .25s linear;opacity: 1; }
+main header {width: 100%; }
+main header > div {width: 50%; }
+main header > .left, main header > .right {height: 100%; }
+main .loaders {
+	width: 100%;
+	box-sizing: border-box;
+	display: flex;
+	flex: 0 1 auto;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+main .loaders .loader {
+	box-sizing: border-box;
+	display: flex;
+	flex: 0 1 auto;
+	flex-direction: column;
+	flex-grow: 1;
+	flex-shrink: 0;
+	flex-basis: 25%;
+	max-width: 25%;
+	height: 200px;
+	align-items: center;
+	justify-content: center;
+}

@@ -1,0 +1,39 @@
+.layui-nav .layui-nav-item .layui-icon {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    margin-top: -19px;
+}
+.layui-side .layui-nav .layui-nav-item a {
+    height: 40px;
+    line-height: 40px;
+    padding-left: 45px;
+    padding-right: 30px;
+}
+.layadmin-header {
+    display: none;
+    height: 50px;
+    line-height: 50px;
+    margin-bottom: 0;
+    border-radius: 0;
+}
+.layui-breadcrumb {
+    padding: 0 15px;
+}
+.layui-fluid {
+    padding: 15px;
+}
+.form-search span{
+	margin-left:20px;
+}
+.form-search input{
+	height:30px;
+}
+.function-search .layui-edge{
+	display: none;
+}
+.function-search input{
+	background-color: rgba(255, 255, 255, 0.05);
+    border: none 0;
+    color: rgba(255,255,255,.5);
+}

@@ -1,0 +1,71 @@
+<link rel="stylesheet" href="../plugins/layui/css/layui.css">
+<script src="../plugins/layui/layui.js"></script>
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/base.js"></script>
+<div style="width:350px;margin:20px auto;">
+<form class="layui-form" action="">
+  <div class="layui-form-item">
+    <label class="layui-form-label">客户名称</label>
+    <div class="layui-input-inline">
+      <input type="text" name="customerName" required  lay-verify="required" placeholder="请输入客户名称" autocomplete="off" class="layui-input">
+    </div>
+    <div class="layui-form-mid" style="color:red;">*</div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">客户生日</label>
+    <div class="layui-input-inline">
+      <input type="text" name="customerBirthday" placeholder="请选择日期" autocomplete="off" class="layui-input">
+      <i class="layui-icon layui-icon-date" style="position: absolute;top:10px;right: 5px;"></i>
+    </div>
+    <div class="layui-form-mid layui-word-aux"></div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">客户手机</label>
+    <div class="layui-input-inline">
+      <input type="text" name="customerPhone" required lay-verify="required" placeholder="请输入客户手机号" autocomplete="off" class="layui-input">
+    </div>
+    <div class="layui-form-mid" style="color:red;">*</div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">客户性别</label>
+    <div class="layui-input-block">
+      <input type="radio" name="customerSex" value="1" title="男">
+      <input type="radio" name="customerSex" value="2" title="女" checked>
+    </div>
+  </div>
+  <div class="layui-form-item layui-form-text">
+    <label class="layui-form-label">客户备注</label>
+    <div class="layui-input-block">
+      <textarea name="customerDesc" placeholder="请输入内容" class="layui-textarea"></textarea>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+  </div>
+</form>
+</div>
+
+	
+<script>
+	layui.use(['layer', 'form', 'laydate'], function(){
+		var layer = layui.layer,form = layui.form,laydate=layui.laydate;
+		//监听提交
+		form.on('submit(formDemo)', function(data){ 
+ 		  ajaxPost('/customer/add',JSON.stringify(data.field),function(data){
+			  var index = parent.layer.getFrameIndex(window.name);
+			  parent.layer.close(index);
+			  parent.layer.msg(data.msg);
+			  //刷新table数据
+			  parent.layui.table.reload('customer',{page:{curr:1}});
+ 		  });
+		  return false;
+		});
+		//执行一个laydate实例
+		laydate.render({
+			elem: '[name="customerBirthday"]' //指定元素
+		});
+	});
+</script>

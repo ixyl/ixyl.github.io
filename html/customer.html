@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+	<table id="customer" lay-filter="test"></table>
+	<script type="text/html" id="toolbarDemo">
+  		<div class="">
+    		<button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon">&#xe654;</i>添加</button>
+    		<button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete"><i class="layui-icon">&#xe640;</i>删除</button>
+			<div class="form-search" style="float:right;width:800px">
+		       	<span>客户名：</span>
+				<div class="layui-inline" style="width:120px;height:30px">
+					<input class="layui-input" name="name" placeholder="请输入姓名"/>
+				</div>
+				<span>性别：</span>
+				<div class="layui-inline" style="width:80px;">
+					<select name="sex">
+  						<option value="">全部</option>
+						<option value="1">男</option>
+						<option value="2">女</option>
+					</select>
+				</div>
+				<span>日期：</span>
+				<div class="layui-input-inline" style="width:120px;">
+  					<input type="text" readonly placeholder="请选择日期" name="startDate" class="layui-input"/> 
+					<i class="layui-icon layui-icon-date" style="position: absolute;top:0px;right: 5px;"></i>
+				</div>
+				<span style="margin-left: 0;">-</span>
+				<div class="layui-input-inline" style="width:120px;">
+  					<input type="text" readonly placeholder="请选择日期" name="endDate" class="layui-input"/> 
+					<i class="layui-icon layui-icon-date" style="position: absolute;top:0px;right: 5px;"></i>
+				</div>
+				<span>
+					<button class="form-search layui-btn layui-btn-sm" lay-event="detail"><i class="layui-icon">&#xe615;</i>查询</button>
+				</span>
+			</div>
+			
+  		</div>
+	</script>
+	<script type="text/html" id="barDemo">
+		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+	</script>
+	<script type="text/javascript">
+	layui.use(['table','laydate'], function(){
+		var table = layui.table,laydate = layui.laydate;
+		//第一个实例
+		var c=table.render({
+		  id:'customer'
+		  ,elem: '#customer'
+		  ,title: 'customer'
+		  ,height: 550
+		  ,url: layuiRequest('/customer/list') //数据接口
+		  ,page: true //开启分页
+		  ,limits:[10,20,50,100,200,500,1000,2000,5000]
+		  ,autoSort: false //禁用前端自动排序
+		  ,toolbar: '#toolbarDemo'
+		  ,cols: [[ //表头
+			{type: 'checkbox', fixed: 'left'}
+			,{field: '', title: '序号', fixed: 'left',width:'5%',align:'center',templet:function(d){return d.LAY_INDEX;}}
+		    ,{field: 'customerId', title: '客户编号', align:'center'}
+		    ,{field: 'customerName', title: '客户名称',align:'center'}
+		    ,{field: 'customerPhone', title: '客户手机号',align:'center'}
+		    ,{field: 'customerSex', title: '客户性别',width:'8%',align:'center',templet:function(d){return d.customerSex==1?'男':'女';}}
+		    ,{field: 'customerBirthday', title: '客户生日',width:120,sort: true,align:'center',templet:function(d){
+		    	var b=d.customerBirthday; 
+		    	if(b!=null){
+		    		if(d.birStatus==0){return b+' <i class="layui-icon layui-icon-fire" style="color:#FF6600;font-weight:bold;right:5px;position:absolute;"></i>';}
+		    		else if(0<d.birStatus&&d.birStatus<4){return b+' <i class="layui-icon layui-icon-fire" style="color:#A8A8A8;right:5px;position:absolute;"></i>';}
+		    		else{return b;}
+		    	} return '';}
+		    }
+		    ,{field: 'balance', title: '可用余额',hide:true, sort: true,align:'center'}
+		    ,{field: 'scoreAvailable', title: '可用积分',hide:true, sort: true,align:'center'}
+		    ,{field: 'scoreTotal', title: '总积分',hide:true, sort: true,align:'center'}
+		    ,{field: 'createDate', title: '创建时间', sort: true,align:'center'}
+		    ,{field: 'customerDesc', title: '客户备注', align:'center'}
+		    ,{fixed: 'right', title: '操作', align:'center', toolbar: '#barDemo'}
+		  ]]
+		  ,response: {
+		    statusCode: 200 //规定成功的状态码，默认：0
+		  }
+		});
+		//监听头工具栏事件
+		table.on('toolbar(test)', function(obj){
+		  var checkStatus = table.checkStatus(obj.config.id)
+		  ,data = checkStatus.data; //获取选中的数据
+		  switch(obj.event){
+		    case 'add':
+	    	  layer.open({
+	    		  type: 2
+	    		  ,title:'客户添加'
+	    		  ,area:['500px','500px']
+	    		  ,content: ['html/customerAdd.html','no']
+	    		});
+			  break;
+		    case 'detail':
+		      //刷新table数据
+	          refresh(obj);
+			  break;
+		    case 'delete':
+		      if(data.length === 0){
+		        layer.msg('请选择一行');
+		      } else {
+		        var ids= new Array();
+		        for(var i=0;i<data.length;i++){
+		        	ids.push(data[i].customerId);
+		        }
+		        layer.confirm('确认删除客户编号为'+ids+'的记录吗?',function(index){
+		        	layer.close(index);//关闭提示框
+		        	//向服务端发送删除指令
+					ajaxGet('/customer/deleteBatch?ids='+ids,function(data){
+						//刷新table数据
+			        	refresh(obj);
+			        	layer.msg(data.msg);
+					});
+		        });
+		      }
+		      break;
+		  };
+		});
+		function refresh(obj){
+			var name=$("[name='name']").val();
+			var sex=$("[name='sex']").val();
+			var startDate=$("[name='startDate']").val();
+			var endDate=$("[name='endDate']").val();
+			//重载table数据
+	    	table.reload('customer', {
+	    		initSort: obj //记录初始排序，如果不设的话，将无法标记表头的排序状态
+	    		,where: {	//设定异步数据接口的额外参数
+	    			name:name
+	    			,sex:sex
+	    			,startDate:startDate
+	    			,endDate:endDate
+	    			,field: obj.field //排序字段
+	  		      	,order: obj.type //排序方式
+	    		}
+	    	});
+	    	//执行一个laydate实例
+			laydate.render({
+				elem: '[name="startDate"]' //指定元素 
+			});
+			//执行一个laydate实例
+			laydate.render({
+				elem: '[name="endDate"]' //指定元素
+			});
+	    	$("[name='name']").val(name);
+	    	$("[name='sex']").val(sex);
+	    	$("[name='startDate']").val(startDate);
+	    	$("[name='endDate']").val(endDate);
+		}
+		//监听行工具事件
+		table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+		  var data = obj.data; //获得当前行数据
+		  switch(obj.event){
+		    case 'edit':
+		      layer.open({
+	    		  type: 2
+	    		  ,title:'客户修改'
+	    		  ,area:['500px','500px']
+	    		  ,content: ['html/customerEdit.html?customerId='+data.customerId+'&customerName='+data.customerName+'&customerPhone='+data.customerPhone+'&customerSex='+data.customerSex+'&customerBirthday='+data.customerBirthday+'&customerDesc='+data.customerDesc,'no']
+	    		});
+		      break;
+		    case 'del':
+			  layer.confirm('确认删除客户编号为'+data.customerId+'的记录吗?', function(index){
+				layer.close(index);//关闭提示框
+				//向服务端发送删除指令
+				ajaxGet('/customer/delete?customerId='+data.customerId,function(data){
+					if(data.code==200){
+						obj.del(); //删除对应行（tr）的DOM结构
+					}
+					layer.msg(data.msg);
+				});
+			  });
+		      break;
+		  };
+		});
+		//执行一个laydate实例
+		laydate.render({
+			elem: '[name="startDate"]' //指定元素 
+		});
+		//执行一个laydate实例
+		laydate.render({
+			elem: '[name="endDate"]' //指定元素
+		});
+		//监听排序事件 
+		table.on('sort(test)', function(obj){ //注：test是table原始容器的属性 lay-filter="对应的值"
+		  refresh(obj);
+		});
+	});
+	</script>
+</body>
+</html>

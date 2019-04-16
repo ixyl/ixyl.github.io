@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>布丁美甲</title>
+	<link rel="icon" href="img/xyl_32.ico" type="image/x-icon" />
+	<link rel="stylesheet" href="plugins/layui/css/layui.css">
+	<link rel="stylesheet" href="css/login.css">
+	<link rel="stylesheet" href="css/loaders.css">
+</head>
+<body>
+	<div class="login">
+		<div class="login_title">
+			<a href="javascript:;"><span class="login_selected">账号密码登录</span></a> |
+			<a href="javascript:;"><span>手机快捷登录</span></a>
+		</div>
+		<div class='login_fields'>
+			<div class="login_input">
+				<i class="layui-icon layui-icon-username" style="position: absolute;top:170px;left: 50px;color: #B8B8B8;"></i>
+			    <input type="text" name="username" class="layui-input" placeholder="请输入手机号"/>
+		    </div>
+		    <div class="login_input" style="margin-top: 20px;">
+				<i class="layui-icon layui-icon-password" style="position: absolute;top:230px;left: 50px;color: #B8B8B8;"></i>
+			    <input type="password" name="password" class="layui-input" placeholder="请输入密码"/>
+		    </div>
+		    <div class="login_link" style="margin-top: 5px;text-align: right;">
+				<a href="javascript:;">忘记密码？</a>
+		    </div>
+		    <div class="login_button" style="margin-top: 15px;">
+		    	<button class="layui-btn layui-btn-fluid btn_login" style="background-color: rgb(40,134,179);">Sign in</button>
+		    </div>
+		</div>
+	</div>
+	<div class='authent'>
+		<div class="loader" style="height: 44px;width: 44px;margin-left: 28px;">
+		     <div class="loader-inner ball-clip-rotate-multiple">
+		         <div></div>
+		         <div></div>
+		         <div></div>
+		     </div>
+		</div>
+		<p>认证中...</p>
+	</div>
+	<script src="plugins/layui/layui.js"></script>
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="js/base.js"></script>
+	<script src="js/jquery-ui.min.js"></script>
+	<script type="text/javascript">
+		layui.use('layer',function(){});
+		$('input[name="username"]').val(localStorage.getItem("ixyl_phone"));
+		$(document).keypress(function (e) {
+	        // 回车键事件
+	        if (e.which == 13) {
+	            $('.btn_login').click();
+	        }
+	    });
+		//非空验证
+        $('.btn_login').click(function () {
+            var username = $('input[name="username"]').val();
+            var password = $('input[name="password"]').val();
+            if (username == '') {
+            	layer.msg('请输入您的账号');
+            } else if (password == '') {
+            	layer.msg('请输入密码');
+            } else {
+               fullscreen();	//全屏特效
+                $('.login').addClass('tilt');	//倾斜特效
+                setTimeout(function () {
+                    $('.login').addClass('move');	//平移特效
+                }, 300);
+                setTimeout(function () {
+                    $('.authent').show().animate({ right: -320 }, {
+                        easing: 'easeOutQuint',
+                        duration: 600,
+                        queue: false
+                    });
+                    $('.authent').animate({ opacity: 1 }, {
+                        duration: 200,
+                        queue: false
+                    }).addClass('visible');
+                }, 500);
+				var login_url=baseUrl+'/oauth/token?username='+username+'&password='+password+'&grant_type=password&client_id=MicroCloud&client_secret=MicroCloud';
+                //登录认证
+				$.ajax({
+			        type: 'post',
+			        url: login_url,
+			        dataType: 'json',
+			        async: 'false',
+			        success: function(data){
+			        	localStorage.setItem("ixyl_phone",username);
+			        	localStorage.setItem("ixyl_user",JSON.stringify(data));
+			        	location.href="index.html";
+			        },
+			        error: function(e){
+			        	console.log(e);
+			        	setTimeout(function () {
+			        		$('.authent').show().animate({ right: 90 }, {
+		 				        easing: 'easeOutQuint',
+		 				        duration: 600,
+		 				        queue: false
+		 				    });
+		 				    $('.authent').animate({ opacity: 0 }, {
+		 				        duration: 200,
+		 				        queue: false
+		 				    }).addClass('visible');
+		 				    $('.login').removeClass('move');	//平移特效
+			        	}, 300);
+			        	setTimeout(function () {
+			        		$('.authent').hide();
+	                    	$('.login').removeClass('tilt');
+	                    	switch(e.status) {
+			        		case 0 :
+			        			layer.msg("网络异常!")
+			        			break;
+			        		default : 
+			        			layer.msg(e.responseJSON.error_description);
+			        		}
+			        	},600);
+			        }
+			    });
+            }
+    });
+    var fullscreen = function () {
+	    elem = document.body;
+	    if (elem.webkitRequestFullScreen) {
+	        elem.webkitRequestFullScreen();
+	    } else if (elem.mozRequestFullScreen) {
+	        elem.mozRequestFullScreen();
+	    } else if (elem.requestFullScreen) {
+	        elem.requestFullscreen();
+	    } else {
+	        //浏览器不支持全屏API或已被禁用
+	    }
+	}
+	</script>
+</body>
+</html>

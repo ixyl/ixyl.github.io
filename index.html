@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+	<title>布丁美甲</title>
+	<link rel="icon" href="img/xyl_32.ico" type="image/x-icon" />
+	<link rel="stylesheet" href="plugins/layui/css/layui.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin" id="layout_main">
+  <div class="layui-header">
+    <div class="layui-logo">Nail Salon Pudding</div>
+    <!-- 头部区域（可配合layui已有的水平导航） -->
+    <div class="layui-form function-search" style="position: absolute;width: 160px;left: 220px;top: 10px;">
+		<select name="city" lay-search>
+			<option value="">搜索功能或模块</option>
+	  		<option value="html/customer.html">客户列表</option>
+	  		<option value="html/customerSpend.html">客户消费</option>
+	  		<option value="html/customerInvalid.html">失效客户</option>
+	  		<option value="html/cost.html">支出列表</option>
+	  		<option value="html/costApplication.html">报销申请</option>
+	  		<option value="html/costAudit.html">报销审核</option>
+	  		<option value="html/profitCostStatistics.html">收入支出统计</option>
+	  		<option value="html/spendLevelStatistics.html">客户消费阶梯</option>
+	  		<option value="html/newCustomerStatistics.html">客户新增统计</option>
+	  		<option value="html/spendFrequencyStatistics.html">客户消费次数占比</option>
+	  		<option value="html/home.html">家人</option>
+	  		<option value="html/friend.html">朋友</option>
+	  		<option value="html/nailSalon.html">美甲</option>
+	  		<option value="html/nailArtPrinter.html">彩绘机</option>
+	  		<option value="html/phototherapyUnit.html">光疗机</option>
+	  		<option value="html/user.html">用户管理</option>
+	  		<option value="html/task.html">任务提醒</option>
+		</select>
+		<i class="layui-icon" style="position: absolute; right:10px;top:10px;color: #C0C0C0">&#xe615;</i>
+	</div>
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item">
+        <a href="javascript:;">
+          <img src="img/pudding.jpg" class="layui-nav-img">{{userInfo.nickname}}
+        </a>
+        <dl class="layui-nav-child">
+          <dd><a href="">基本资料</a></dd>
+          <dd><a href="">安全设置</a></dd>
+          <dd><a href="javascript:;" class="signOut">退出</a></dd>
+        </dl>
+      </li>
+      <li class="layui-nav-item"><a href="https://www.baidu.com" target="_blank">百度一下</a></li>
+    </ul>
+  </div>
+  
+  <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <ul class="layui-nav layui-nav-tree" >
+      	<li class="layui-nav-item layui-this">
+      	  <a href="">
+      	    <i class="layui-icon layui-icon-home"></i>
+          	   <cite>主页</cite>
+      	  </a>
+      	</li>
+        <li class="layui-nav-item layui-nav-itemed">
+          <a class="" href="javascript:;">
+          	<i class="layui-icon layui-icon-user"></i>
+          	<cite>客户管理</cite>
+          </a>
+          <dl class="layui-nav-child">
+            <dd><a href="javascript:;" data-name="html/customer.html">客户列表</a></dd>
+            <dd><a href="javascript:;" data-name="html/customerSpend.html">客户消费</a></dd>
+            <dd><a href="javascript:;" data-name="html/customerInvalid.html">失效客户</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item layui-nav-itemed">
+          <a class="" href="javascript:;">
+          	<i class="layui-icon layui-icon-cart"></i>
+          	<cite>采购支出</cite>
+          </a>
+          <dl class="layui-nav-child">
+            <dd><a href="javascript:;" data-name="html/cost.html">支出列表</a></dd>
+            <dd><a href="javascript:;" data-name="html/costApplication.html">报销申请</a></dd>
+            <dd><a href="javascript:;" data-name="html/costAudit.html">报销审核</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a class="" href="javascript:;">
+          	<i class="layui-icon layui-icon-chart"></i>
+          	<cite>报表分析</cite>
+          </a>
+          <dl class="layui-nav-child">
+            <dd><a href="javascript:;" data-name="html/profitCostStatistics.html">收入支出统计</a></dd>
+            <dd><a href="javascript:;" data-name="html/spendLevelStatistics.html">客户消费阶梯</a></dd>
+            <dd><a href="javascript:;" data-name="html/newCustomerStatistics.html">客户新增统计</a></dd>
+            <dd><a href="javascript:;" data-name="html/spendFrequencyStatistics.html">客户消费次数占比</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a class="" href="javascript:;">
+          	<i class="layui-icon layui-icon-picture-fine"></i>
+          	<cite>图片欣赏</cite>
+          </a>
+          <dl class="layui-nav-child">
+            <dd><a href="javascript:;" data-name="html/home.html">家人</a></dd>
+            <dd><a href="javascript:;" data-name="html/friend.html">朋友</a></dd>
+            <dd><a href="javascript:;" data-name="html/nailSalon.html">美甲</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a class="" href="javascript:;">
+          	<i class="layui-icon layui-icon-cellphone"></i>
+          	<cite>设备管理</cite>
+          </a>
+          <dl class="layui-nav-child">
+            <dd><a href="javascript:;" data-name="html/nailArtPrinter.html">彩绘机</a></dd>
+            <dd><a href="javascript:;" data-name="html/phototherapyUnit.html">光疗机</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a class="" href="javascript:;">
+          	<i class="layui-icon layui-icon-set"></i>
+          	<cite>系统管理</cite>
+          </a>
+          <dl class="layui-nav-child">
+            <dd><a href="javascript:;" data-name="html/user.html">用户管理</a></dd>
+            <dd><a href="javascript:;" data-name="html/task.html">任务提醒</a></dd>
+          </dl>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div class="layadmin-tabsbody-item layui-show">
+    	<div class="layui-card layadmin-header">
+    		<div class="layui-breadcrumb" style="visibility: visible;"></div>
+    	</div>
+    	<div class="layui-fluid">
+    		666
+    	</div>
+    </div>
+  </div>
+  
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+    © ixyl.github.io - 布丁美甲（天健广场店）
+  </div>
+</div>
+	<script src="plugins/layui/layui.js"></script>
+	<script src="js/layui.use.js"></script>
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="js/base.js"></script>
+	<script src="js/vue.min.js"></script>
+	<script type="text/javascript">
+		var user=localStorage.getItem("ixyl_user");
+		if(user==null||user==''){
+			location.href="login.html";
+		}
+		//加载用户信息
+		var userInfoUrl='/user/info';
+		ajaxGet(userInfoUrl,function(data){
+			vue.userInfo=data;
+		});
+		var vue=new Vue({
+			el:'#layout_main',
+			data:{
+				userInfo:{}
+			},
+			computed:{
+				needAdminRole:function(){
+					for(var i=0;i<this.userInfo.msg.authorities.length;i++){
+						if(this.userInfo.msg.authorities[i].authority=='ROLE_ADMIN'){
+							return true;
+						}
+					}
+					return false;
+				}
+			}
+		});
+		
+		//退出
+		$('.signOut').click(function(){
+			var signOutUrl=baseUrl+'/signOut?access_token='+JSON.parse(user).access_token;
+			$.ajax({
+		        type: 'get',
+		        url: signOutUrl,
+		        dataType: 'json',
+		        async: 'false',
+		        complete: function(XMLHttpRequest){
+		        	localStorage.removeItem("ixyl_user");
+		        	location.href="login.html";
+		        }
+		    });
+		});
+	</script>
+</body>
+</html>

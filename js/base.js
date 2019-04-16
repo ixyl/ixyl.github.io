@@ -1,5 +1,5 @@
 //base.js
-var baseUrl='http://52.83.166.49:8868';
+var baseUrl='//ec2-52-83-166-49.cn-northwest-1.compute.amazonaws.com.cn';
 //ajaxPost请求
 function ajaxPost(url,jsonData,returnFun) {
     $.ajax({
